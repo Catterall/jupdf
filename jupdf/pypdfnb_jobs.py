@@ -47,11 +47,14 @@ def multiple_to_pdf(pypdfnbs: Iterable[PYPDFNB], dst: str) -> None:
     """
     pdfs = []
     for i, pypdfnb in enumerate(pypdfnbs):
-        if not pypdfnb.is_empty:
+        if pypdfnb.is_empty:
             continue
         if convert(pypdfnb, f'temp/tmp-{i}.pdf'):
             pdfs.append(f'temp/tmp-{i}.pdf')
-        
+    
+    if not pdfs:
+        return
+    
     r = fitz.open()
     
     for pdf in pdfs:
